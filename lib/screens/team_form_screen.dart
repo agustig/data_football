@@ -93,7 +93,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
         decoration: BoxDecoration(
           color: Colors.grey[200],
           image: DecorationImage(
-            image: loadImageProvider(imageSource: widget.originalTeam?.logo),
+            image: loadImageProvider(imageSource: logo),
             fit: BoxFit.scaleDown,
           ),
           borderRadius: const BorderRadius.all(
@@ -108,6 +108,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
               child: InkWell(
                 onTap: () {
                   // TODO: Add Popup Image Upload Form
+                  getUploadImageForm(context);
                 },
                 child: Container(
                   width: 180,
@@ -348,6 +349,22 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
     );
   }
 
+  Future<void> getUploadImageForm(BuildContext context) async {
+    final String? logoSource = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ImageUploadForm(
+          imageSource: logo,
+        ),
+      ),
+    );
+
+    if (!mounted) return;
+    setState(() {
+      logo = logoSource;
+    });
+  }
+
   @override
   void initState() {
     // Implement initState
@@ -367,12 +384,17 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
       leagueValue = team.league.id;
       league = team.league;
     }
+  }
 
-    // _nameController.addListener(() {
-    //   setState(() {
-    //     name = _nameController.text;
-    //   });
-    // });
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _fullNameController.dispose();
+    _groundController.dispose();
+    _websiteController.dispose();
+    
+    //  implement super.dispose
+    super.dispose();
   }
 
   void resetValue() {
