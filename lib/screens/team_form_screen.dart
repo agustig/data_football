@@ -72,10 +72,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
                       showGroundName(),
                       showWebsite(),
                       showLeague(),
-                      const Divider(
-                        color: Colors.black54,
-                      ),
-                      Text('${league?.name ?? "halo"}'),
+                      const Divider(color: Colors.black54),
                     ],
                   ),
                 )
@@ -88,18 +85,55 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
   }
 
   Widget showLogo() {
-    // final team = widget.originalTeam;
-    return Container(
-      padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-      height: 150,
-      width: 150,
-      decoration: BoxDecoration(
-        image: DecorationImage(image: loadImageProvider(imageSource: widget.originalTeam?.logo))
-      ),
-      child: Stack(
-        children: [
-          const Text('halo'),
-        ],
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.all(20),
+        height: 180,
+        width: 180,
+        decoration: BoxDecoration(
+          color: Colors.grey[200],
+          image: DecorationImage(
+            image: loadImageProvider(imageSource: widget.originalTeam?.logo),
+            fit: BoxFit.scaleDown,
+          ),
+          borderRadius: const BorderRadius.all(
+            Radius.circular(16),
+          ),
+        ),
+        child: Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            Positioned(
+              bottom: 0,
+              child: InkWell(
+                onTap: () {
+                  // TODO: Add Popup Image Upload Form
+                },
+                child: Container(
+                  width: 180,
+                  height: 40,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(16),
+                      bottomRight: Radius.circular(16),
+                    ),
+                    color: Colors.black87,
+                  ),
+                  child: Center(
+                    child: Text(
+                      (logo != null) ? "Change Image" : "Add Image",
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -201,8 +235,11 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
         Row(
           children: [
             Container(
-              // padding: EdgeInsets.only(left: 20),
-              // margin: EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(
+                left: 20,
+                top: 20,
+                right: 20,
+              ),
               height: 150,
               width: 150,
               child: loadImage(imageSource: league?.logo),
