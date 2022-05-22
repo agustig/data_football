@@ -1,25 +1,3 @@
-CREATE TABLE IF NOT EXISTS `countries` (
-    `code` VARCHAR(3) KEY NOT NULL,
-    `name` VARCHAR(35) NOT NULL,
-    `continent_name` VARCHAR(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE IF NOT EXISTS `players` (
-    `id` INT(10) KEY AUTO_INCREMENT,
-    `full_name` VARCHAR(50) NOT NULL,
-    `nationality` VARCHAR(3) NOT NULL,
-    `date_of_birth` DATETIME NOT NULL, 
-    `birth_country` VARCHAR(3) NOT NULL,
-    `name` VARCHAR(20) NOT NULL,
-    `jarsey_number` INT(3) NOT NULL,
-    `current_team` INT(5) NOT NULL,
-    `last_team` INT(5) NOT NULL,
-    `position` VARCHAR(20) NOT NULL,
-    `appearances` INT(5) NOT NULL, 
-    `goals` INT(5) NOT NULL,
-    `image` VARCHAR(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 CREATE TABLE IF NOT EXISTS `teams` (
     `id` INT(8) KEY AUTO_INCREMENT,
     `name` VARCHAR(20) NOT NULL,
@@ -27,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `teams` (
     `ground` VARCHAR(30) NOT NULL,
     `logo` VARCHAR(255) NOT NULL,
     `website` VARCHAR(50) NOT NULL,
-    `league` INT(5) NOT NULL
+    `league` INT(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `teams` (`name`, `full_name`, `ground`, `logo`, `website`, `league`) VALUES 
@@ -38,15 +16,82 @@ INSERT INTO `teams` (`name`, `full_name`, `ground`, `logo`, `website`, `league`)
 ('Juventus', 'Juventus Football Club S.p.A.', 'Juventus Stadium', 'assets/images/teams/Juventus_FC_icon.png', 'http://www.juventus.com/', 4), 
 ('Manchester United', 'Manchester United Football Club', 'Old Trafford', 'assets/images/teams/Manchester_United_FC_crest.png', 'https://www.manutd.com/', 2), 
 ('Liverpool', 'Liverpool Football Club', 'Anfield', 'assets/images/teams/Liverpool_FC.png', 'https://www.liverpoolfc.com/', 2), 
-('Arsenal', 'The Arsenal Football Club', 'Emirates Stadium', 'assets/images/teams/Arsenal_FC.png', 'https://www.arsenal.com/', 2);
+('Arsenal', 'The Arsenal Football Club', 'Emirates Stadium', 'assets/images/teams/Arsenal_FC.png', 'https://www.arsenal.com/', 2),
+('Paris Saint-Germain', 'Paris Saint-Germain Football Club', 'Qatar Sports Investments', 'https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Paris_Saint-Germain_F.C..svg/360px-Paris_Saint-Germain_F.C..svg.png', 'https://www.psg.fr/', 5),
+('Parma', 'Parma Calcio 1913 S.r.l', 'Stadio Ennio Tardini', 'https://parmacalcio1913.com/wp-content/uploads/2020/05/Logo_Parma_Calcio_1913_adozione_2016.png', 'https://parmacalcio1913.com/', 6),
+('Tottenham Hotspur', 'Tottenham Hotspur Football Club', 'Tottenham Hotspur Stadium', 'https://brandlogos.net/wp-content/uploads/2020/11/tottenham-hotspur-logo.png', 'https://www.tottenhamhotspur.com/', 2),
+('Everton', 'Everton Football Club', 'Goodison Park', 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7c/Everton_FC_logo.svg/360px-Everton_FC_logo.svg.png', 'https://www.evertonfc.com/', 2),
+('Bayer Leverkusen', 'Bayer 04 Leverkusen Fußball GmbH', 'BayArena', 'https://upload.wikimedia.org/wikipedia/en/thumb/5/59/Bayer_04_Leverkusen_logo.svg/440px-Bayer_04_Leverkusen_logo.svg.png', 'https://www.bayer04.de/en-us', 1),
+('Chelsea', 'Chelsea Football Club', 'Stamford Bridge', 'https://upload.wikimedia.org/wikipedia/en/thumb/c/cc/Chelsea_FC.svg/360px-Chelsea_FC.svg.png', 'https://www.chelseafc.com/en', 2),
+('Barcelona', 'Futbol Club Barcelona', 'Camp Nou', 'https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/360px-FC_Barcelona_%28crest%29.svg.png', 'https://www.fcbarcelona.com/en/', 3),
+('Monaco', 'Association Sportive de Monaco Football Club SA', 'Stade Louis II', 'https://upload.wikimedia.org/wikipedia/en/d/d1/AS_Monaco_FC_logo.png', 'https://www.asmonaco.com/en/', 5),
+('Lyon', 'Olympique Lyonnais', 'Groupama Stadium', 'https://upload.wikimedia.org/wikipedia/en/thumb/c/c6/Olympique_Lyonnais.svg/300px-Olympique_Lyonnais.svg.png', 'https://www.ol.fr/fr-FR/prehome', 5),
+('Roma', 'Associazione Sportiva Roma S.p.A.', 'Stadio Olimpico', 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f7/AS_Roma_logo_%282017%29.svg/300px-AS_Roma_logo_%282017%29.svg.png', 'https://www.asroma.com/', 4),
+('Fluminense', 'Fluminense Football Club', 'Maracanã', 'https://upload.wikimedia.org/wikipedia/en/thumb/9/9e/Fluminense_fc_logo.svg/300px-Fluminense_fc_logo.svg.png', 'https://www.fluminense.com.br/site/', '7'),
+('Atlético Madrid', 'Club Atlético de Madrid, S.A.D.', 'Wanda Metropolitano', 'https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Atletico_Madrid_2017_logo.svg/290px-Atletico_Madrid_2017_logo.svg.png', 'https://en.atleticodemadrid.com/', 3),
+('Leicester City', 'Leicester City Football Club', 'King Power Stadium', 'https://upload.wikimedia.org/wikipedia/en/thumb/2/2d/Leicester_City_crest.svg/360px-Leicester_City_crest.svg.png', 'https://www.lcfc.com/', 2),
+('Palermo', 'Palermo Football Club', 'Stadio Renzo Barbera', 'https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Palermo_Calcio_logo_%282019%29.svg/400px-Palermo_Calcio_logo_%282019%29.svg.png', 'https://www.palermofc.com/it/', 8),
+('Borussia Dortmund', 'Ballspielverein Borussia 09 e. V. Dortmund', 'Westfalenstadion', 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Borussia_Dortmund_logo.svg/360px-Borussia_Dortmund_logo.svg.png', 'https://www.bvb.de/', 1);
 
 CREATE TABLE IF NOT EXISTS `leagues` (
     `id` INT(8) KEY AUTO_INCREMENT,
-    `name` VARCHAR(15) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
     `country` VARCHAR(3) NOT NULL,
     `number_of_team` INT(2) NOT NULL,
     `logo` VARCHAR(255) NOT NULL,
     `website` VARCHAR(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `leagues` (`name`, `country`, `number_of_team`, `logo`, `website`) VALUES
+('Bundesliga', 'GER', 18, 'assets/images/leagues/bundesliga_logo.png', 'https://www.bundesliga.com/'),
+('Premier League', 'ENG', 20, 'assets/images/leagues/premier_league_logo.png', 'https://www.premierleague.com/'),
+('La Liga', 'ESP', 20, 'assets/images/leagues/la_liga_logo.png', 'https://www.laliga.com/'),
+('Serie A', 'ITA', 20, 'assets/images/leagues/serie_a_logo.png', 'https://www.legaseriea.it/'),
+('Ligue 1', 'FRA', 20, 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Ligue_1_Uber_Eats_logo.svg/260px-Ligue_1_Uber_Eats_logo.svg.png', 'https://www.ligue1.com/'),
+('Serie B', 'ITA', 20, 'https://upload.wikimedia.org/wikipedia/en/thumb/9/90/Serie_BKT_logo.svg/526px-Serie_BKT_logo.svg.png', 'https://www.legab.it/'),
+('Campeonato Brasileiro Série A', 'BRA', 20, 'https://upload.wikimedia.org/wikipedia/en/4/42/Campeonato_Brasileiro_S%C3%A9rie_A_logo.png', 'https://brasileirao.cbf.com.br/'),
+('Serie C', 'ITA', 60, 'https://upload.wikimedia.org/wikipedia/en/3/34/Logo_Serie_C_2020.webp', 'https://www.lega-pro.com/');
+
+CREATE TABLE IF NOT EXISTS `players` (
+    `id` INT(128) KEY AUTO_INCREMENT,
+    `name` VARCHAR(20) NOT NULL,
+    `full_name` VARCHAR(100) NOT NULL,
+    `nationality` VARCHAR(3) NOT NULL,
+    `date_of_birth` DATE NOT NULL, 
+    `birth_country` VARCHAR(3) NOT NULL,
+    `jarsey_number` INT(3) NOT NULL,
+    `current_team` INT(5) NOT NULL,
+    `last_team` INT(5) NOT NULL,
+    `position` VARCHAR(20) NOT NULL,
+    `image` VARCHAR(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+INSERT INTO `players` (`name`, `full_name`, `nationality`, `date_of_birth`, `birth_country`, `jarsey_number`, `current_team`, `last_team`, `position`, `image`) VALUES
+('Cristiano Ronaldo', 'Cristiano Ronaldo dos Santos Aveiro', 'POR', '1985-02-05', 'POR', 7, 6, 5, 'Forward', 'assets/images/players/christiano_ronaldo_2342.jpeg'),
+('Gareth Bale', 'Gareth Frank Bale', 'WAL', '1989-07-16', 'WAL', 18, 1, 11, 'Winger', 'assets/images/players/Gareth_Bale_380x501.jpeg'),
+('Gianluigi Buffon', 'Gianluigi Buffon', 'ITA', '1978-01-28', 'ITA', 1, 10, 5, 'Goalkeeper', 'assets/images/players/gianlugi_buffon_232314.webp'),
+('Son Heung-min', 'Son Heung-min', 'KOR', '1992-07-08', 'KOR', 7, 11, 13, 'Forward', 'assets/images/players/Son_Heung-min_3425.png'),
+('Paul Pogba', 'Paul Labile Pogba', 'FRA', '1993-03-15', 'FRA', 6, 6, 5, 'Midfielder', 'assets/images/players/paul_pogba_953y4.png'),
+('Eden Hazard', 'Eden Michael Hazard', 'BEL', '1991-01-07', 'BEL', 7, 1, 14, 'Winger', 'assets/images/players/EDEN_HAZARD_550x650.png'),
+('Neymar', 'Neymar da Silva Santos Júnior', 'BRA', '1992-02-05', 'BRA', 10, 9, 15, 'Forward', 'assets/images/players/neymar_653998.jpeg'),
+('Kylian Mbappé', 'Kylian Mbappé Lottin', 'FRA', '1998-12-20', 'FRA', 7, 9, 16, 'Forward', 'assets/images/players/mbappe_834876.png'),
+('Karim Benzema', 'Karim Benzema', 'FRA', '1987-12-19', 'FRA', 9, 1, 17, 'Sriker', 'assets/images/players/Benzema_2435645.jpeg'),
+('Toni Kroos', 'Toni Kroos', 'GER', '1990-01-04', 'GER', 8, 1, 3, 'Midfielder', 'assets/images/players/Toni_Kroos_380x501.jpeg'),
+('Mohamed Salah', 'Mohamed Salah Hamed Mahrous Ghaly', 'EGY', '1992-06-15', 'EGY', 11, 7, 18, 'Forward', 'assets/images/players/MO_SALAH_big_345870.png'),
+('Ángel Di María', 'Ángel Fabián Di María', 'ARG', '1988-02-14', 'ARG', 11, 9, 6, 'Winger', 'assets/images/players/di-maria_card_21-22_r245.png'),
+('Sergio Ramos', 'Sergio Ramos García', 'ESP', '1986-03-30', 'ESP', 4, 9, 1, 'Defender', 'assets/images/players/ramos_card_21-22_47545.png'),
+('Marcelo Vieira', 'Marcelo Vieira da Silva Júnior', 'BRA', '1988-05-12', 'BRA', 12, 1, 19, 'Left-back', 'assets/images/players/MARCELO_534634.png'),
+('Lionel Messi', 'Lionel Andrés Messi', 'ARG', '1987-06-24', 'ARG', 30, 9, 15, 'Forward', 'assets/images/players/lionel_messi_1313413.jpeg'),
+('David de Gea', 'David de Gea Quintana', 'ESP', '1990-11-07', 'ESP', 1, 6, 20, 'Goalkeeper', 'assets/images/players/de_gea_32549687.png'),
+('Harry Kane', 'Harry Edward Kane', 'ENG', '1993-07-28', 'ENG', 10, 11, 21, 'Sriker', 'assets/images/players/harrykane_2021_22.png'),
+('Dele Alli', 'Bamidele Jermaine Alli', 'ENG', '1996-04-11', 'ENG', 36, 12, 11, 'Attacking midfielder', 'assets/images/players/dele_alli_54687.png'),
+('Paulo Dybala', 'Paulo Exequiel Dybala', 'ARG', '1993-11-15', 'ARG', 10, 5, 22, 'Forward', 'assets/images/players/paulo_dybala_5465.webp'),
+('Robert Lewandowski', 'Robert Lewandowski', 'POL', '1988-08-21', 'POL', 9, 3, 23, 'Sriker', 'assets/images/players/robert_lewandowski_456356.png');
+
+CREATE TABLE IF NOT EXISTS `countries` (
+    `code` VARCHAR(3) KEY NOT NULL,
+    `name` VARCHAR(35) NOT NULL,
+    `continent_name` VARCHAR(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `countries` (`code`, `name`, `continent_name`) VALUES 
@@ -272,10 +317,3 @@ INSERT INTO `countries` (`code`, `name`, `continent_name`) VALUES
 ('PER', 'Peru', 'CONMEBOL'),
 ('URU', 'Uruguay', 'CONMEBOL'),
 ('VEN', 'Venezuela', 'CONMEBOL');
-
-
-INSERT INTO `leagues` (`name`, `country`, `number_of_team`, `logo`, `website`) VALUES
-('Bundesliga', 'GER', 18, 'assets/images/leagues/bundesliga_logo.png', 'https://www.bundesliga.com/'),
-('Premier League', 'ENG', 20, 'assets/images/leagues/premier_league_logo.png', 'https://www.premierleague.com/'),
-('La Liga', 'ESP', 20, 'assets/images/leagues/la_liga_logo.png', 'https://www.laliga.com/'),
-('Serie A', 'ITA', 20, 'assets/images/leagues/serie_a_logo.png', 'https://www.legaseriea.it/');
