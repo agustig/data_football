@@ -17,7 +17,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
       body: showFuturePlayers(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Add change state view function
+          // Add change state view function
           setState(() {
             isBoxView = !isBoxView;
           });
@@ -32,9 +32,11 @@ class _PlayerScreenState extends State<PlayerScreen> {
       future: Player.manyFromDB(),
       builder: (context, AsyncSnapshot<List<Player>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return showPlayersListView(snapshot.data!);
+          return isBoxView
+              ? showPlayersGridView(snapshot.data!)
+              : showPlayersListView(snapshot.data!);
         } else {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
       },
     );
@@ -69,6 +71,62 @@ class _PlayerScreenState extends State<PlayerScreen> {
               Text('Age: ${calculateAge(player.dateOfBirth)}'),
               Text('Team: ${player.currentTeam.name}'),
               Text('Position: ${player.position}'),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget showPlayersGridView(List<Player> players) {
+    return GridView.builder(
+      padding: const EdgeInsets.only(
+        top: 16,
+        left: 16,
+        right: 16,
+      ),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+      ),
+      itemCount: players.length,
+      itemBuilder: (BuildContext context, index) {
+        final player = players[index];
+        return InkWell(
+          onTap: () {
+            // TODO: Add Navigation to player details
+          },
+          child: Column(
+            children: [
+              Container(
+                height: 60,
+                width: 60,
+                margin: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.blueGrey,
+                      offset: Offset(0.9, 1.9),
+                      blurRadius: 50,
+                      spreadRadius: 0.9,
+                      blurStyle: BlurStyle.inner,
+                    )
+                  ],
+                  gradient: LinearGradient(
+                    colors: [Colors.grey, Colors.blue.shade50],
+                  ),
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    alignment: Alignment.topCenter,
+                    image: loadImageProvider(player.image),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              Text(
+                player.name,
+                softWrap: true,
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         );
