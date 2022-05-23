@@ -5,6 +5,7 @@ class NewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('News'));
+    // TODO: Add some fooball news from API
+    return const Center(child: Text('News'));
   }
 }

@@ -19,8 +19,10 @@ class League {
   final String website;
 
   static Future<League> oneFromDBWithId(int id) async {
-    const String sql = 'SELECT * FROM leagues WHERE id = ?';
-    final leagues = await getAllFromDB(sql, [id]);
+    const String sqlString =
+        'SELECT id, name, country, number_of_team, logo, website '
+        'FROM leagues WHERE id = ?';
+    final leagues = await getAllFromDB(sqlString, [id]);
     return leagues[0];
   }
 
@@ -28,20 +30,24 @@ class League {
     if (value == null) {
       return getAllFromDB();
     } else {
-      const sql =
-          'SELECT * FROM leagues WHERE country = '
+      const sqlString =
+          'SELECT id, name, country, number_of_team, logo, website '
+          'FROM leagues WHERE country = '
           'ANY (SELECT code FROM countries WHERE continent_name = ?)';
 
-      return getAllFromDB(sql, [value]);
+      return getAllFromDB(sqlString, [value]);
     }
   }
 
   static Future<List<League>> getAllFromDB([
-    String sql = 'SELECT * FROM leagues',
+    String? sql,
     List<Object?>? values,
   ]) async {
+    final sqlString = sql ??
+        'SELECT id, name, country, number_of_team, logo, website '
+            'FROM leagues';
     final leagues = <League>[];
-    for (var row in await getStorage(sql, values)) {
+    for (var row in await getStorage(sqlString, values)) {
       final league = League(
         id: row[0],
         name: row[1],

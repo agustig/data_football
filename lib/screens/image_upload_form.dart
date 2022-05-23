@@ -1,5 +1,5 @@
-import 'package:data_football/models/options.dart';
 import 'package:flutter/material.dart';
+import 'package:data_football/models/models.dart';
 
 class ImageUploadForm extends StatefulWidget {
   const ImageUploadForm({Key? key, this.imageSource}) : super(key: key);
@@ -64,7 +64,7 @@ class _ImageUploadFormState extends State<ImageUploadForm> {
           Radius.circular(16),
         ),
         image: DecorationImage(
-          image: loadImageProvider(imageSource: imageString),
+          image: loadImageProvider(imageString),
           fit: BoxFit.scaleDown,
         ),
       ),

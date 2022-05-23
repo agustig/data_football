@@ -1,5 +1,4 @@
 import 'package:data_football/storage/storage.dart';
-import 'package:data_football/models/models.dart';
 
 class Country {
   const Country({
@@ -13,7 +12,8 @@ class Country {
   final String continentName;
 
   static Future<Country> getOneFromDBWithCode(String code) async {
-    const String sql = 'SELECT * FROM countries WHERE code = ?';
+    const sql =
+        'SELECT code, name, continent_name FROM countries WHERE code = ?';
     final countries = await getAllFromDB(sql, [code]);
 
     return countries[0];
@@ -30,9 +30,10 @@ class Country {
   }
 
   static Future<List<Country>> getAllFromDB(
-      [String sql = 'SELECT * FROM countries', List<Object?>? values]) async {
+      [String? sql, List<Object?>? values]) async {
+    final sqlString = sql ?? 'SELECT code, name, continent_name FROM countries';
     final countries = <Country>[];
-    for (var row in await getStorage(sql, values)) {
+    for (var row in await getStorage(sqlString, values)) {
       final country = Country(
         code: row[0],
         name: row[1],

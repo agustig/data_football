@@ -1,5 +1,5 @@
-import 'package:data_football/screens/screens.dart';
 import 'package:flutter/material.dart';
+import 'package:data_football/screens/screens.dart';
 import 'package:data_football/models/models.dart';
 
 class TeamsScreen extends StatelessWidget {
@@ -94,7 +94,7 @@ Widget showFutureLeagues() {
           final league = leagues[index];
           return ListTile(
             leading:
-                CircleAvatar(backgroundImage: loadImageProvider(imageSource: league.logo)),
+                CircleAvatar(backgroundImage: loadImageProvider(league.logo)),
             title: Text('${league.name} ${league.country.name}'),
           );
         },

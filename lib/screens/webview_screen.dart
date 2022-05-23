@@ -1,10 +1,13 @@
 import 'dart:io';
-import 'package:data_football/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:data_football/models/models.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebViewScreen extends StatefulWidget {
-  const WebViewScreen({Key? key, required this.team,}) : super(key: key);
+  const WebViewScreen({
+    Key? key,
+    required this.team,
+  }) : super(key: key);
   final FootballTeam team;
 
   @override

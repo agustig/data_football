@@ -1,5 +1,5 @@
-import 'package:data_football/screens/screens.dart';
 import 'package:flutter/material.dart';
+import 'package:data_football/screens/screens.dart';
 import 'package:data_football/models/models.dart';
 
 class TeamFormScreen extends StatefulWidget {
@@ -91,7 +91,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
         decoration: BoxDecoration(
           color: Colors.grey[200],
           image: DecorationImage(
-            image: loadImageProvider(imageSource: logo),
+            image: loadImageProvider(logo),
             fit: BoxFit.scaleDown,
           ),
           borderRadius: const BorderRadius.all(
@@ -269,7 +269,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
             onChanged: (value) {
               setState(() {
                 continentValue = value;
-                resetValue();
+                resetLeagueValue();
               });
             },
           );
@@ -379,13 +379,8 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
     super.dispose();
   }
 
-  void resetValue() {
+  void resetLeagueValue() {
     leagueValue = null;
-    name = '';
-    fullName = '';
-    ground = '';
-    logo = null;
-    website = '';
     league = null;
   }
 }

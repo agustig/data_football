@@ -7,6 +7,7 @@ class LeagueDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Add league detail
     return Scaffold(
       appBar: AppBar(
         title: Text('${league.name} Details'),

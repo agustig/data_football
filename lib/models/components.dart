@@ -11,7 +11,7 @@ dynamic shapshotCheck(AsyncSnapshot<Object?> snapshot) {
   return null;
 }
 
-ImageProvider loadImageProvider({String? imageSource}) {
+ImageProvider loadImageProvider([String? imageSource]) {
   if (imageSource == null) {
     return IconImageProvider(Icons.hide_image, size: 100);
   }

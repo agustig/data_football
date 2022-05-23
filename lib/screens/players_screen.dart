@@ -1,5 +1,5 @@
-import 'package:data_football/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:data_football/models/models.dart';
 
 class PlayerScreen extends StatefulWidget {
   const PlayerScreen({Key? key}) : super(key: key);
@@ -58,7 +58,7 @@ class _PlayerScreenState extends State<PlayerScreen> {
               shape: BoxShape.circle,
               image: DecorationImage(
                   alignment: Alignment.topCenter,
-                  image: loadImageProvider(imageSource: player.image),
+                  image: loadImageProvider(player.image),
                   fit: BoxFit.fitWidth),
             ),
           ),

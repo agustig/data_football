@@ -21,17 +21,23 @@ class FootballTeam {
   final League league;
 
   static Future<FootballTeam> oneFromDBWithId(int id) async {
-    const sql = 'SELECT * FROM teams WHERE id = ?';
-    final teams = await manyFromDB(sql, [id]);
+    const sqlString =
+        'SELECT id, name, full_name, ground, logo, website, league '
+        'FROM teams WHERE id = ?';
+    final teams = await manyFromDB(sqlString, [id]);
+
     return teams[0];
   }
 
   static Future<List<FootballTeam>> manyFromDB([
-    String sql = 'SELECT * FROM teams',
+    String? sql,
     List<Object?>? values,
   ]) async {
+    final sqlString = sql ??
+        'SELECT id, name, full_name, ground, logo, website, league '
+            'FROM teams';
     final teams = <FootballTeam>[];
-    for (var row in await getStorage(sql, values)) {
+    for (var row in await getStorage(sqlString, values)) {
       final team = FootballTeam(
         id: row[0],
         name: row[1],

@@ -1,5 +1,5 @@
-import 'package:data_football/screens/screens.dart';
 import 'package:flutter/material.dart';
+import 'package:data_football/screens/screens.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
