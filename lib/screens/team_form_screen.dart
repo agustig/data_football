@@ -5,12 +5,10 @@ import 'package:data_football/models/models.dart';
 class TeamFormScreen extends StatefulWidget {
   const TeamFormScreen({
     Key? key,
-    // required this.onSet,
     this.originalTeam,
   })  : isUpdating = (originalTeam != null),
         super(key: key);
 
-  // final Function(FootballTeam) onSet;
   final FootballTeam? originalTeam;
   final bool isUpdating;
 
@@ -221,7 +219,6 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
 
   Widget showLeague() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const SizedBox(height: 16),
@@ -235,26 +232,21 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
         ),
         Row(
           children: [
-            Container(
-              padding: const EdgeInsets.only(
-                left: 20,
-                top: 20,
-                right: 20,
-              ),
-              height: 150,
-              width: 150,
-              child: loadImage(imageSource: league?.logo),
-            ),
-            const SizedBox(
-              width: 16,
-            ),
             Expanded(
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 16),
                   showContinentDropdown(),
                   showLeagueDropdown(),
                 ],
+              ),
+            ),
+            Center(
+              child: SizedBox(
+                height: 80,
+                width: 80,
+                child: loadImage(imageSource: league?.logo),
               ),
             ),
           ],
@@ -268,24 +260,18 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
       future: Country.getDistinctContinentFromDB(),
       builder: (context, AsyncSnapshot<List<String>> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return Row(
-            children: [
-              DropdownButton<String>(
-                hint: const Text('Filter with Continent'),
-                value: continentValue,
-                menuMaxHeight: double.infinity,
-                items: snapshot.data!.map<DropdownMenuItem<String>>((value) {
-                  return DropdownMenuItem<String>(
-                      value: value, child: Text(value));
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    continentValue = value;
-                    resetValue();
-                  });
-                },
-              ),
-            ],
+          return DropdownButton<String>(
+            hint: const Text('Filter with Continent'),
+            value: continentValue,
+            items: snapshot.data!.map<DropdownMenuItem<String>>((value) {
+              return DropdownMenuItem<String>(value: value, child: Text(value));
+            }).toList(),
+            onChanged: (value) {
+              setState(() {
+                continentValue = value;
+                resetValue();
+              });
+            },
           );
         } else {
           return const LinearProgressIndicator();
@@ -317,30 +303,26 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
               ),
             ),
           );
-          return Row(
-            children: [
-              DropdownButton<int>(
-                value: leagueValue,
-                hint: const Text('Select League Name'),
-                items: leaguesDropdown,
-                onChanged: (value) {
-                  if (value != -1) {
-                    setState(() {
-                      league = leagues
-                          .where((element) => element.id == value)
-                          .toList()[0];
-                      leagueValue = value;
-                    });
-                  } else {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => const LeagueFormScreen(),
-                      ),
-                    );
-                  }
-                },
-              )
-            ],
+          return DropdownButton<int>(
+            value: leagueValue,
+            hint: const Text('Select League Name'),
+            items: leaguesDropdown,
+            onChanged: (value) {
+              if (value != -1) {
+                setState(() {
+                  league = leagues
+                      .where((element) => element.id == value)
+                      .toList()[0];
+                  leagueValue = value;
+                });
+              } else {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const LeagueFormScreen(),
+                  ),
+                );
+              }
+            },
           );
         } else {
           return const LinearProgressIndicator();
@@ -392,7 +374,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
     _fullNameController.dispose();
     _groundController.dispose();
     _websiteController.dispose();
-    
+
     //  implement super.dispose
     super.dispose();
   }
