@@ -1,16 +1,14 @@
 # data_football
 
-A new Flutter project.
+A simple football fanbase app. This app use MySQL to store football data.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Use [dataFootball.sql](dataFootball.sql) in a local MySQL server to try this app.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [X] Add sample football data to database.
+- [X] Add main teams page view.
+- [ ] Add main players page view.
+- [ ] Add api data in the main news screen.
