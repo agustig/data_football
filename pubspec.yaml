@@ -29,7 +29,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # intl: ^0.17.0
+  intl: ^0.17.0
   # uuid: ^3.0.4
   webview_flutter: ^2.0.13
   smooth_page_indicator: ^1.0.0+2
@@ -66,6 +66,7 @@ flutter:
   assets:
     - assets/images/teams/
     - assets/images/leagues/
+    - assets/images/players/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

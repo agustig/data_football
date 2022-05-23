@@ -1,35 +1,78 @@
 import 'package:data_football/models/models.dart';
 import 'package:flutter/material.dart';
 
-class PlayerScreen extends StatelessWidget {
+class PlayerScreen extends StatefulWidget {
   const PlayerScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return showFutureCountries();
-  }
+  State<PlayerScreen> createState() => _PlayerScreenState();
 }
 
-showFutureCountries() {
-  return FutureBuilder(
-    future: Country.getAllFromDB('SELECT * FROM `countries`'),
-    builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return const CircularProgressIndicator();
-    } else if (snapshot.hasError) {
-      return Text(snapshot.error.toString());
-    }
+class _PlayerScreenState extends State<PlayerScreen> {
+  bool isBoxView = false;
 
-    var countries = snapshot.data as List<Country>;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: showFuturePlayers(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO: Add change state view function
+          setState(() {
+            isBoxView = !isBoxView;
+          });
+        },
+        child: Icon(isBoxView ? Icons.list : Icons.grid_view),
+      ),
+    );
+  }
+
+  Widget showFuturePlayers() {
+    return FutureBuilder(
+      future: Player.manyFromDB(),
+      builder: (context, AsyncSnapshot<List<Player>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return showPlayersListView(snapshot.data!);
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  Widget showPlayersListView(List<Player> players) {
     return ListView.builder(
-      itemCount: countries.length,
+      padding: const EdgeInsets.only(top: 16),
+      itemCount: players.length,
       itemBuilder: (context, index) {
-        final country = countries[index];
+        final player = players[index];
         return ListTile(
-          leading: Text(country.code),
-          title: Text(country.name),
-          subtitle: Text(country.continentName),
+          onTap: () {
+            // TODO: Add player profile page
+          },
+          contentPadding: const EdgeInsets.all(8),
+          leading: Container(
+            height: 90,
+            width: 90,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  alignment: Alignment.topCenter,
+                  image: loadImageProvider(imageSource: player.image),
+                  fit: BoxFit.fitWidth),
+            ),
+          ),
+          title: Text(player.name),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Age: ${calculateAge(player.dateOfBirth)}'),
+              Text('Team: ${player.currentTeam.name}'),
+              Text('Position: ${player.position}'),
+            ],
+          ),
         );
-      });
-  });
+      },
+    );
+  }
 }

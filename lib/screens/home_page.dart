@@ -17,12 +17,6 @@ class _HomePageState extends State<HomePage> {
     PlayerScreen(),
   ];
 
-  static const List<Widget> titles = [
-    Text('Data Football'),
-    Text('Teams'),
-    Text('Players'),
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
@@ -33,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: titles[0],
+        title: const Text('Data Football'),
       ),
       body: pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

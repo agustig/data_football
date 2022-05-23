@@ -33,7 +33,7 @@ Widget loadImage({String? imageSource, double? width, double? height}) {
       height: height,
     );
   }
-  
+
   return Image.asset(
     imageSource,
     width: width,
@@ -41,19 +41,41 @@ Widget loadImage({String? imageSource, double? width, double? height}) {
   );
 }
 
+int calculateAge(DateTime birthDate) {
+  final currentDate = DateTime.now();
+  int age = currentDate.year - birthDate.year;
+  if (birthDate.month > currentDate.month) {
+    age--;
+  } else if (birthDate.month == currentDate.month) {
+    if (birthDate.day > currentDate.day) {
+      age--;
+    }
+  }
+  return age;
+}
+
 class IconImageProvider extends ImageProvider<IconImageProvider> {
-  IconImageProvider(this.icon, {this.scale = 1.0, this.size = 48, this.color = Colors.black87,});
+  IconImageProvider(
+    this.icon, {
+    this.scale = 1.0,
+    this.size = 48,
+    this.color = Colors.black87,
+  });
 
   final IconData icon;
   final double scale;
   final int size;
   final Color color;
 
-  @override 
-  Future<IconImageProvider> obtainKey(ImageConfiguration configuration) => SynchronousFuture(this);
+  @override
+  Future<IconImageProvider> obtainKey(ImageConfiguration configuration) =>
+      SynchronousFuture(this);
 
-  @override 
-  ImageStreamCompleter load(IconImageProvider key, DecoderCallback decode) => OneFrameImageStreamCompleter(_loadAsync(key),);
+  @override
+  ImageStreamCompleter load(IconImageProvider key, DecoderCallback decode) =>
+      OneFrameImageStreamCompleter(
+        _loadAsync(key),
+      );
 
   Future<ImageInfo> _loadAsync(IconImageProvider key) async {
     assert(key == this);
@@ -64,7 +86,11 @@ class IconImageProvider extends ImageProvider<IconImageProvider> {
     final textPainter = TextPainter(textDirection: ui.TextDirection.rtl);
     textPainter.text = TextSpan(
       text: String.fromCharCode(icon.codePoint),
-      style: TextStyle(fontFamily: icon.fontFamily, color: color, fontSize: size.toDouble(),),
+      style: TextStyle(
+        fontFamily: icon.fontFamily,
+        color: color,
+        fontSize: size.toDouble(),
+      ),
     );
 
     textPainter.layout();
@@ -73,16 +99,20 @@ class IconImageProvider extends ImageProvider<IconImageProvider> {
     return ImageInfo(image: image, scale: key.scale);
   }
 
-  @override 
+  @override
   bool operator ==(dynamic other) {
     if (other.runtimeType != runtimeType) return false;
     final IconImageProvider typedOther = other;
-    return icon == typedOther.icon && scale == typedOther.scale && size == typedOther.size && color == typedOther.color;
+    return icon == typedOther.icon &&
+        scale == typedOther.scale &&
+        size == typedOther.size &&
+        color == typedOther.color;
   }
 
-  @override 
+  @override
   int get hashCode => hashValues(icon.hashCode, scale, size, color);
 
   @override
-  String toString() => '$runtimeType(${describeIdentity(icon)}, scale: $scale, size: $size, color: $color)';
+  String toString() =>
+      '$runtimeType(${describeIdentity(icon)}, scale: $scale, size: $size, color: $color)';
 }
