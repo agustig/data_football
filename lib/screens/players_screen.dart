@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:data_football/models/models.dart';
+import 'package:data_football/screens/screens.dart';
 
 class PlayerScreen extends StatefulWidget {
   const PlayerScreen({Key? key}) : super(key: key);
@@ -50,7 +51,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
         final player = players[index];
         return ListTile(
           onTap: () {
-            // TODO: Add player profile page
+            // Navigate to player details
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => PlayerDetails(player: player),
+              ),
+            );
           },
           contentPadding: const EdgeInsets.all(8),
           leading: Container(
@@ -93,7 +99,12 @@ class _PlayerScreenState extends State<PlayerScreen> {
         final player = players[index];
         return InkWell(
           onTap: () {
-            // TODO: Add Navigation to player details
+            // Navigate to player details
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => PlayerDetails(player: player),
+              ),
+            );
           },
           child: Column(
             children: [
