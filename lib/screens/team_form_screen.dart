@@ -105,7 +105,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
               bottom: 0,
               child: InkWell(
                 onTap: () {
-                  // TODO: Add Popup Image Upload Form
+                  // Call upload image page
                   getUploadImageForm(context);
                 },
                 child: Container(
@@ -343,7 +343,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
 
     if (!mounted) return;
     setState(() {
-      logo = logoSource;
+      logo = logoSource ?? logo;
     });
   }
 
