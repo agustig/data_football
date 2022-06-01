@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:data_football/models/models.dart';
 import 'package:data_football/screens/screens.dart';
 
-class TeamDetails extends StatelessWidget {
+class TeamDetails extends StatefulWidget {
   const TeamDetails({
     Key? key,
     required this.team,
@@ -10,19 +10,35 @@ class TeamDetails extends StatelessWidget {
   final FootballTeam team;
 
   @override
+  State<TeamDetails> createState() => _TeamDetailsState();
+}
+
+class _TeamDetailsState extends State<TeamDetails> {
+  late FootballTeam _team;
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('${team.name} Details'),
+        title: Text('${_team.name} Details'),
         actions: [
           IconButton(
-            onPressed: (() {
-              Navigator.of(context).push(
+            onPressed: () async {
+              final FootballTeam? updatedTeam =
+                  await Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => TeamFormScreen(originalTeam: team),
+                  builder: (context) => TeamFormScreen(
+                    originalTeam: _team,
+                  ),
                 ),
               );
-            }),
+
+              if (updatedTeam != null) {
+                setState(() {
+                  _team = updatedTeam;
+                });
+              }
+            },
             icon: const Icon(Icons.edit_note),
           ),
         ],
@@ -39,12 +55,12 @@ class TeamDetails extends StatelessWidget {
             ),
             height: 400,
             width: 400,
-            child: loadImage(imageSource: team.logo),
+            child: loadImage(imageSource: _team.logo),
           ),
           const SizedBox(height: 16),
           Center(
             child: Text(
-              team.fullName,
+              _team.fullName,
               style: Theme.of(context).textTheme.headlineSmall,
               softWrap: false,
               maxLines: 1,
@@ -100,7 +116,7 @@ class TeamDetails extends StatelessWidget {
         TextButton(
           onPressed: null,
           child: Text(
-            team.ground,
+            _team.ground,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ),
@@ -119,12 +135,12 @@ class TeamDetails extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (context) => LeagueDetails(league: team.league),
+                builder: (context) => LeagueDetails(league: _team.league),
               ),
             );
           },
           child: Text(
-            team.league.name,
+            _team.league.name,
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               color: Colors.blue,
@@ -151,12 +167,12 @@ class TeamDetails extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => WebViewScreen(team: team),
+                    builder: (context) => WebViewScreen(team: _team),
                   ),
                 );
               },
               child: Text(
-                team.website,
+                _team.website,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.blue,
@@ -168,5 +184,13 @@ class TeamDetails extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Get team detail from parent class
+    _team = widget.team;
   }
 }

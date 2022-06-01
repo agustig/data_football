@@ -34,3 +34,10 @@ Future<List<ResultRow>> getStorage(String sql, [List<Object?>? values]) async {
 
   return results;
 }
+
+Future<Results> saveStorage(String sql, [List<Object?>? values]) async {
+  final db = Storage();
+  final conn = await db.getConnection();
+  final results = await conn.query(sql, values);
+  return results;
+}

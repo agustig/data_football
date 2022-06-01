@@ -25,6 +25,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
   int? leagueValue;
 
   Color currenColor = Colors.white;
+  int? id;
   String name = '';
   String fullName = '';
   String ground = '';
@@ -51,11 +52,7 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
           showLogo(),
           const SizedBox(height: 20),
           Container(
-            padding: const EdgeInsets.only(
-              top: 20,
-              right: 20,
-              left: 20,
-            ),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
@@ -70,7 +67,8 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
                       showGroundName(),
                       showWebsite(),
                       showLeague(),
-                      const Divider(color: Colors.black54),
+                      const SizedBox(height: 20),
+                      saveButton(),
                     ],
                   ),
                 )
@@ -331,6 +329,46 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
     );
   }
 
+  Widget saveButton() {
+    return Row(
+      children: [
+        Expanded(
+          child: ElevatedButton(
+            onPressed: () {
+              // Collect all Team data to Save
+              final footballTeam = FootballTeam(
+                id: id,
+                name: _nameController.text,
+                fullName: _fullNameController.text,
+                ground: _groundController.text,
+                logo: logo!,
+                website: _websiteController.text,
+                league: league!,
+              );
+
+              // Save new Team detail to Storage
+              footballTeam.saveToDB().then((value) {
+                // Check callback value thats returns auto increment id
+                // from Database for new added data, and 0 for update old data
+                if (value == 0) {
+                  // Back to previous page with edited team value
+                  Navigator.pop(context, footballTeam);
+                } else {
+                  // Back to previous page
+                  Navigator.pop(context);
+                }
+              });
+            },
+            style: ElevatedButton.styleFrom(
+              textStyle: Theme.of(context).textTheme.headline6,
+            ),
+            child: const Text('Save'),
+          ),
+        )
+      ],
+    );
+  }
+
   Future<void> getUploadImageForm(BuildContext context) async {
     final String? logoSource = await Navigator.push(
       context,
@@ -353,15 +391,16 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
     super.initState();
     final team = widget.originalTeam;
     if (team != null) {
-      name = team.name;
       _nameController.text = team.name;
-      fullName = team.fullName;
       _fullNameController.text = team.fullName;
-      ground = team.ground;
       _groundController.text = team.ground;
-      logo = team.logo;
-      website = team.website;
       _websiteController.text = team.website;
+      id = team.id;
+      name = _nameController.text;
+      fullName = _fullNameController.text;
+      ground = _groundController.text;
+      logo = team.logo;
+      website = _websiteController.text;
       continentValue = team.league.country.continentName;
       leagueValue = team.league.id;
       league = team.league;
