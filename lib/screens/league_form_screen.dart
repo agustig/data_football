@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:data_football/models/models.dart';
 
 class LeagueFormScreen extends StatelessWidget {
-  const LeagueFormScreen({Key? key}) : super(key: key);
+  const LeagueFormScreen({Key? key, this.league}) : super(key: key);
+  final League? league;
 
   @override
   Widget build(BuildContext context) {

@@ -133,10 +133,46 @@ class _TeamDetailsState extends State<TeamDetails> {
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => LeagueDetails(league: _team.league),
-              ),
+            showDialog(
+              context: context,
+              builder: (context) {
+                var league = _team.league;
+                return AlertDialog(
+                  content: LeagueDetails(league: league),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(
+                              builder: (context) => LeagueFormScreen(
+                                league: league,
+                              ),
+                            ))
+                            .then(
+                              (value) => setState(
+                                () {
+                                  league = value;
+                                },
+                              ),
+                            );
+                      },
+                      child: const Text(
+                        'Edit',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Back',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                );
+              },
             );
           },
           child: Text(
@@ -167,7 +203,7 @@ class _TeamDetailsState extends State<TeamDetails> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => WebViewScreen(team: _team),
+                    builder: (context) => WebViewScreen(model: _team),
                   ),
                 );
               },
