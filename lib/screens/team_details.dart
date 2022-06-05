@@ -15,6 +15,7 @@ class TeamDetails extends StatefulWidget {
 
 class _TeamDetailsState extends State<TeamDetails> {
   late FootballTeam _team;
+  late League _league;
 
   @override
   Widget build(BuildContext context) {
@@ -136,25 +137,27 @@ class _TeamDetailsState extends State<TeamDetails> {
             showDialog(
               context: context,
               builder: (context) {
-                var league = _team.league;
+                // var league = _team.league;
                 return AlertDialog(
-                  content: LeagueDetails(league: league),
+                  content: LeagueDetails(league: _league),
                   actions: [
                     TextButton(
-                      onPressed: () {
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(
-                              builder: (context) => LeagueFormScreen(
-                                league: league,
-                              ),
-                            ))
-                            .then(
-                              (value) => setState(
-                                () {
-                                  league = value;
-                                },
-                              ),
-                            );
+                      onPressed: () async {
+                        final League? updatedLeague =
+                            await Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => LeagueFormScreen(
+                              league: _league,
+                            ),
+                          ),
+                        );
+
+                        if (updatedLeague != null) {
+                          setState(() {
+                            _league = updatedLeague;
+                            Navigator.pop(context);
+                          });
+                        }
                       },
                       child: const Text(
                         'Edit',
@@ -176,7 +179,7 @@ class _TeamDetailsState extends State<TeamDetails> {
             );
           },
           child: Text(
-            _team.league.name,
+            _league.name,
             style: const TextStyle(
               fontWeight: FontWeight.w600,
               color: Colors.blue,
@@ -228,5 +231,6 @@ class _TeamDetailsState extends State<TeamDetails> {
 
     // Get team detail from parent class
     _team = widget.team;
+    _league = _team.league;
   }
 }

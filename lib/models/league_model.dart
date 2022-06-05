@@ -60,4 +60,21 @@ class League {
     }
     return leagues;
   }
+
+  Future<int?> saveToDB() async {
+    late final String sqlString;
+    final values = [name, country.code, numberOfTeams, logo, website];
+    if (id != null) {
+      sqlString = 'UPDATE leagues SET name=?, country=?, number_of_team=?, '
+          'logo=?, website=? WHERE id=?';
+      values.add(id!);
+    } else {
+      sqlString =
+          'INSERT INTO leagues (name, country, number_of_team, logo, website) '
+          'VALUES (?, ?, ?, ?, ?)';
+    }
+
+    final result = await saveStorage(sqlString, values);
+    return result.insertId;
+  }
 }

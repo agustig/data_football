@@ -314,11 +314,11 @@ class _TeamFormScreenState extends State<TeamFormScreen> {
                   leagueValue = value;
                 });
               } else {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const LeagueFormScreen(),
-                  ),
-                );
+                Navigator.of(context)
+                    .push(MaterialPageRoute(
+                      builder: (context) => const LeagueFormScreen(),
+                    ))
+                    .then((value) => setState(() {}));
               }
             },
           );
