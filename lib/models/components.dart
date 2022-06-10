@@ -1,16 +1,14 @@
+import 'dart:io';
 import 'dart:ui' as ui;
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:data_football/config.dart';
 
-dynamic shapshotCheck(AsyncSnapshot<Object?> snapshot) {
-  if (snapshot.connectionState == ConnectionState.waiting) {
-    return const CircularProgressIndicator();
-  } else if (snapshot.hasError) {
-    return Text(snapshot.error.toString());
-  }
-  return null;
-}
-
+/// A custom of imageProvider function
+/// that usually use on [Container] decoration image.
 ImageProvider loadImageProvider([String? imageSource]) {
   if (imageSource == null) {
     return IconImageProvider(Icons.hide_image, size: 100);
@@ -21,9 +19,31 @@ ImageProvider loadImageProvider([String? imageSource]) {
   return AssetImage(imageSource);
 }
 
+/// A custom of [Image] widget.
+///
+/// Can select automatically a image source which is from assets or network.
+/// Also can load image with ".svg" format extension
 Widget loadImage({String? imageSource, double? width, double? height}) {
+  // Check if has none of image return defaul image
   if (imageSource == null) {
     return const Icon(Icons.hide_image);
+  }
+
+  // Check if image has .svg format
+  if (imageSource.endsWith('.svg')) {
+    if (imageSource.startsWith('http')) {
+      return SvgPicture.network(
+        imageSource,
+        width: width,
+        height: height,
+      );
+    } else {
+      return SvgPicture.asset(
+        imageSource,
+        width: width,
+        height: height,
+      );
+    }
   }
 
   if (imageSource.startsWith('http')) {
@@ -41,6 +61,7 @@ Widget loadImage({String? imageSource, double? width, double? height}) {
   );
 }
 
+/// A function thats can calculate year between past [DateTime] and now.
 int calculateAge(DateTime birthDate) {
   final currentDate = DateTime.now();
   int age = currentDate.year - birthDate.year;
@@ -54,6 +75,7 @@ int calculateAge(DateTime birthDate) {
   return age;
 }
 
+/// The custom class that use for build image from [Icons] object
 class IconImageProvider extends ImageProvider<IconImageProvider> {
   IconImageProvider(
     this.icon, {
@@ -115,4 +137,40 @@ class IconImageProvider extends ImageProvider<IconImageProvider> {
   @override
   String toString() =>
       '$runtimeType(${describeIdentity(icon)}, scale: $scale, size: $size, color: $color)';
+}
+
+/// [footballDataApis] return jsonData witch get from api.football-data.org
+footballDataApis({
+  required String endPoint,
+  Map<String, String>? filters,
+}) async {
+  const domain = 'api.football-data.org';
+  try {
+    // Cheking API key if zero value, throw exeption
+    if (dataFootballApiKey == '') {
+      throw 'Please insert your Football-data.org API key!';
+    } else {
+      final auth = {'X-Auth-Token': dataFootballApiKey};
+      final url = Uri.http(domain, '/v4/$endPoint', filters);
+      final response = await http.get(url, headers: auth);
+      if (response.statusCode == 200) {
+        final rawJsonString = response.body;
+        final jsonMap = jsonDecode(rawJsonString);
+        return jsonMap;
+      } else {
+        final errorMessage = jsonDecode(response.body)['message'];
+        if (errorMessage == 'Your API token is invalid.') {
+          throw errorMessage;
+        } else {
+          throw HttpException('${response.statusCode}');
+        }
+      }
+    }
+  } on SocketException catch (error) {
+    return Future.error(error.toString());
+  } on HttpException catch (error) {
+    return Future.error(error.toString());
+  } catch (error) {
+    return Future.error(error.toString());
+  }
 }
