@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:data_football/config.dart';
+import 'package:data_football/config.dart' as config;
 
 /// A custom of imageProvider function
 /// that usually use on [Container] decoration image.
@@ -147,10 +147,10 @@ footballDataApis({
   const domain = 'api.football-data.org';
   try {
     // Cheking API key if zero value, throw exeption
-    if (dataFootballApiKey == '') {
+    if (config.dataFootballApiKey == '') {
       throw 'Please insert your Football-data.org API key!';
     } else {
-      final auth = {'X-Auth-Token': dataFootballApiKey};
+      final auth = {'X-Auth-Token': config.dataFootballApiKey};
       final url = Uri.http(domain, '/v4/$endPoint', filters);
       final response = await http.get(url, headers: auth);
       if (response.statusCode == 200) {

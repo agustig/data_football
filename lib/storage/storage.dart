@@ -1,12 +1,14 @@
 import 'package:mysql1/mysql1.dart';
+import 'package:data_football/config.dart' as config;
 
 class Storage {
   Storage();
 
-  String host = '127.0.0.1';
-  int port = 3306;
-  String user = 'root';
-  String db = 'dataFootball';
+  String host = config.dbHost;
+  int port = config.dbPort;
+  String user = config.dbUser;
+  String password = config.dbPassword;
+  String db = config.dbName;
 
   Future<MySqlConnection> getConnection() {
     var settings = ConnectionSettings(
