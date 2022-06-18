@@ -41,6 +41,8 @@ dependencies:
   mysql1: ^0.19.2
   http: ^0.13.4
   flutter_svg: ^1.1.0
+  xml: ^6.1.0
+  metadata_fetch: ^0.4.1
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
+/// WebView template
 class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
     Key? key,
@@ -24,7 +25,10 @@ class WebViewScreenState extends State<WebViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: WebView(initialUrl: widget.link),
+      body: WebView(
+        initialUrl: widget.link,
+        javascriptMode: JavascriptMode.unrestricted,
+      ),
     );
   }
 }

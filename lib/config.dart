@@ -21,3 +21,7 @@ const dbUser = 'root';
 
 /// Database password
 const dbPassword = '';
+
+/// Football news source url from Google News
+const newsFeedUrl =
+    'https://news.google.com/rss/topics/CAAqJQgKIh9DQkFTRVFvSUwyMHZNREoyZURRU0JXVnVMVWRDS0FBUAE?hl=en-US&gl=US&ceid=US%3Aen';

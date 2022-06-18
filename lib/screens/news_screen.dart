@@ -1,5 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
+import 'package:data_football/screens/screens.dart';
 import 'package:data_football/models/models.dart';
 
 class NewsScreen extends StatelessWidget {
@@ -22,7 +23,15 @@ class NewsScreen extends StatelessWidget {
           SizedBox(
             height: 300,
             child: matchResults(),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'Headline News',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+          ),
+          const HeadlineNewsStream(),
         ],
       ),
     );
@@ -231,5 +240,101 @@ class NewsScreen extends StatelessWidget {
         }
       },
     );
+  }
+}
+
+/// Headline News section 
+class HeadlineNewsStream extends StatefulWidget {
+  const HeadlineNewsStream({Key? key}) : super(key: key);
+
+  @override
+  State<HeadlineNewsStream> createState() => _HeadlineNewsStreamState();
+}
+
+class _HeadlineNewsStreamState extends State<HeadlineNewsStream> {
+  final children = <Widget>[];
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: StreamBuilder(
+        stream: News.getNewsStream(),
+        builder: (context, AsyncSnapshot<News> snapshot) {
+          if (snapshot.hasData) {
+            final newsData = snapshot.data!;
+            children.add(InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WebViewScreen(link: newsData.link),
+                  ),
+                );
+              },
+              child: Card(
+                child: Container(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Text(
+                              newsData.title,
+                              style: const TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              '${newsData.publisher} · '
+                              '${calculateTimePassed(newsData.publishDate)}',
+                            )
+                          ],
+                        ),
+                      ),
+                      ...showNewsImage(newsData.image),
+                    ],
+                  ),
+                ),
+              ),
+            ));
+
+            return Column(
+              children: children,
+            );
+          }
+          return const SizedBox(
+            height: 200,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  List<Widget> showNewsImage(String? image) {
+    if (image != null) {
+      return [
+        const SizedBox(width: 8.0),
+        Container(
+          height: 80,
+          width: 80,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(image),
+              fit: BoxFit.cover,
+            ),
+          ),
+        )
+      ];
+    }
+    return [
+      const SizedBox(width: 8.0),
+    ];
   }
 }
