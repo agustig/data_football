@@ -2,12 +2,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebViewScreen<T> extends StatefulWidget {
+class WebViewScreen extends StatefulWidget {
   const WebViewScreen({
     Key? key,
-    required this.model,
+    required this.link,
   }) : super(key: key);
-  final T model;
+  final String link;
 
   @override
   State<WebViewScreen> createState() => WebViewScreenState();
@@ -23,8 +23,8 @@ class WebViewScreenState extends State<WebViewScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('${widget.model.name}\'s Sites')),
-      body: WebView(initialUrl: widget.model.website),
+      appBar: AppBar(),
+      body: WebView(initialUrl: widget.link),
     );
   }
 }
