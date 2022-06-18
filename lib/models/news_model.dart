@@ -10,15 +10,17 @@ class News {
     required this.title,
     required this.link,
     required this.publishDate,
-    this.image,
+    required this.image,
     required this.publisher,
+    required this.publisherLink,
   });
 
   final String title;
   final String link;
   final DateTime publishDate;
-  final String? image;
+  final String image;
   final String publisher;
+  final String publisherLink;
 
   static Stream<News> getNewsStream() async* {
     final url = Uri.parse(newsFeedUrl);
@@ -26,25 +28,40 @@ class News {
     final xmlDocument = XmlDocument.parse(xmlString);
 
     for (var xmlItem in xmlDocument.findAllElements('item')) {
-      final link = xmlItem.findElements('link').single.text;
-      final newsMetadata = await MetadataFetch.extract(link);
-      final publisher = xmlItem.findElements('source').single.text;
-      final title = xmlItem
-          .findElements('title')
-          .single
-          .text
-          .replaceFirstMapped(' - $publisher', (match) => '');
-      final image = newsMetadata!.image;
-      final publishDate = DateFormat('d MMM yyyy HH:mm:ss z')
-          .parse(xmlItem.findElements('pubDate').single.text.split(', ')[1]);
-      final news = News(
-        title: title,
-        link: link,
-        publishDate: publishDate,
-        image: image,
-        publisher: publisher,
+      // Get metadata from news link
+      final newsMetadata = await MetadataFetch.extract(
+        xmlItem.findElements('link').single.text,
       );
-      yield news;
-    } 
+      if (newsMetadata != null) {
+        final titleMaybeNull = newsMetadata.title;
+        final imageMaybeNull = newsMetadata.image;
+        final linkMaybeNull = newsMetadata.url;
+        if (titleMaybeNull != null &&
+            imageMaybeNull != null &&
+            linkMaybeNull != null) {
+          final title = titleMaybeNull;
+          final link = linkMaybeNull;
+          final publishDate = DateFormat('d MMM yyyy HH:mm:ss z').parse(
+              xmlItem.findElements('pubDate').single.text.split(', ')[1]);
+          final image = imageMaybeNull;
+          final publisher = xmlItem.findElements('source').single.text;
+          final publisherLink = xmlItem
+              .findElements('source')
+              .map(
+                (value) => value.getAttribute('url'),
+              )
+              .toList()[0]!;
+          final news = News(
+            title: title,
+            link: link,
+            publishDate: publishDate,
+            image: image,
+            publisher: publisher,
+            publisherLink: publisherLink,
+          );
+          yield news;
+        }
+      }
+    }
   }
 }
