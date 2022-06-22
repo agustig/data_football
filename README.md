@@ -16,4 +16,4 @@ Fill or change config variable on [config file](lib/config.dart).
 - [X] Add sample football data to database.
 - [X] Add main teams page view.
 - [X] Add main players page view.
-- [ ] Add api data in the main news screen.
+- [X] Add api data in the main news screen.
