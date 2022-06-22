@@ -7,7 +7,7 @@ class Storage {
   String host = config.dbHost;
   int port = config.dbPort;
   String user = config.dbUser;
-  String password = config.dbPassword;
+  String? password = (config.dbPassword == '') ? null : config.dbPassword;
   String db = config.dbName;
 
   Future<MySqlConnection> getConnection() {
@@ -15,6 +15,7 @@ class Storage {
       host: host,
       port: port,
       user: user,
+      password: password,
       db: db,
     );
     return MySqlConnection.connect(settings);
