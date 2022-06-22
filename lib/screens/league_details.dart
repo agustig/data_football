@@ -36,7 +36,7 @@ class LeagueDetails extends StatelessWidget {
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => WebViewScreen(
-                        link: league.website,
+                        model: league,
                       ),
                     ),
                   );

@@ -13,6 +13,7 @@ class News {
     required this.image,
     required this.publisher,
     required this.publisherLink,
+    this.isBookmarked = false,
   });
 
   final String title;
@@ -21,6 +22,7 @@ class News {
   final String image;
   final String publisher;
   final String publisherLink;
+  bool isBookmarked;
 
   static Stream<News> getNewsStream() async* {
     final url = Uri.parse(newsFeedUrl);

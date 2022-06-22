@@ -206,7 +206,9 @@ class _TeamDetailsState extends State<TeamDetails> {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => WebViewScreen(link: _team.website,),
+                    builder: (context) => WebViewScreen(
+                      model: _team,
+                    ),
                   ),
                 );
               },

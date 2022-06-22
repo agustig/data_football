@@ -9,3 +9,4 @@ export 'team_form_screen.dart';
 export 'league_form_screen.dart';
 export 'image_upload_form.dart';
 export 'player_details.dart';
+export 'news_webview.dart';

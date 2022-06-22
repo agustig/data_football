@@ -243,7 +243,7 @@ class NewsScreen extends StatelessWidget {
   }
 }
 
-/// Headline News section 
+/// Headline News section
 class HeadlineNewsStream extends StatefulWidget {
   const HeadlineNewsStream({Key? key}) : super(key: key);
 
@@ -267,7 +267,7 @@ class _HeadlineNewsStreamState extends State<HeadlineNewsStream> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => WebViewScreen(link: newsData.link),
+                    builder: (context) => NewsWebView(news: newsData),
                   ),
                 );
               },
